@@ -20,6 +20,7 @@ document.addEventListener('deviceready', onDeviceReady,false);
 function onDeviceReady()
 {
   console.log("Device Ready..");
+  
   destinationType=navigator.camera.DestinationType;
 }
 
@@ -31,7 +32,9 @@ function openCamera()
   navigator.camera.getPicture(cameraCallBack, onError,options); 
 }
 function cameraCallBack(imgData){
+  document.getElementById("photo").src="../img/logo.png";
   savePicture(imgData);//Save picture (path of picture)
+  
 }
 var options = {
       quality: 50,
