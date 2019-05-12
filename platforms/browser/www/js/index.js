@@ -36,7 +36,7 @@ function cameraCallBack(imgData){
   img.src =  imgData;
   document.getElementById("msg").textContent=imgData;
   savePicture(imgData);
-  moveFile(imgData);
+  //moveFile(imgData);
  // document.getElementById("photo2").src=imgData;
 }
 
