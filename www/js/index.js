@@ -16,7 +16,6 @@ var mainView = app.views.create('.view-main');
 
 var pictureSource;
 var destinationType;
-var pathImg=null;
 document.addEventListener('deviceready', onDeviceReady,false);
 function onDeviceReady()
 {
@@ -42,7 +41,9 @@ function cameraCallBack(imgData){
 
 var options = {
       quality: 50,
-      destinationType: destinationType.DATA_URL
+      destinationType: destinationType.DATA_URL,
+      mediaType: Camera.MediaType.PICTURE,
+      
 
   };
   
