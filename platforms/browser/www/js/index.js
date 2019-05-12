@@ -14,77 +14,65 @@ var app = new Framework7({
   
 var mainView = app.views.create('.view-main');
 
-var pictureSource;
+
 var destinationType;
 document.addEventListener('deviceready', onDeviceReady,false);
 function onDeviceReady()
 {
   console.log("Device Ready..");
-  pictureSource=navigator.camera.PictureSourceType;
   destinationType=navigator.camera.DestinationType;
-
-  console.log(cordova.file);
 }
 
-
+/**
+ * this method open camera to take picture later
+ */
 function openCamera()
 {
   navigator.camera.getPicture(cameraCallBack, onError,options); 
 }
 function cameraCallBack(imgData){
-  var img = document.getElementById('photo');
-  img.src =  imgData;
-  document.getElementById("msg").textContent=imgData;
-  savePicture(imgData);
-  //moveFile(imgData);
- // document.getElementById("photo2").src=imgData;
+  savePicture(imgData);//Save picture (path of picture)
 }
-
 var options = {
       quality: 50,
       destinationType: destinationType.DATA_URL,
       mediaType: Camera.MediaType.PICTURE
   };
   
-
-  function openGalery(source)
-  {
+/**
+ * This method is encharged to open galery and select a picture by user
+ * @param {*} source 
+ */
+  function openGalery(source){
     var opt={
       quality: 50,
       destinationType: destinationType.FILE_URI,
-      sourceType: source
-      };
+      sourceType: source };
+      //require 3 parameter 
     navigator.camera.getPicture(onPhotoURISucess,onError, opt);
   }
-
-function onPhotoURISucess(imgURI)
-{
+function onPhotoURISucess(imgURI){
   var img= document.getElementById("photo");
   img.src= imgURI;
 }
 
-
+/**
+ * Message general for all porpuse
+ * @param {*} msg 
+ */
 function onError(msg)
 {alert("Failed because"+msg);}
 
 /**
- * Save a picture after take picture
+ *this method Save a picture after take picture
  */
-function savePicture(pathImg)
-{
-  alert("method save");
-  window.cordova.plugins.imagesaver.saveImageToGallery(pathImg,onSaveImageSuccess, onError);
-}
-
-function onSaveImageSuccess(){
-  alert("Picture Saved");
-}
+function savePicture(pathImg){ window.cordova.plugins.imagesaver.saveImageToGallery(pathImg,onSaveImageSuccess, onError);}
+function onSaveImageSuccess(){}
 
 
 /***
  * -----------------------
  * 
- */
 
 
 function moveFile(file){
@@ -123,3 +111,6 @@ function moveFile(file){
 function resOnError(error) {
   alert('Awwww shnap!: ' + error.code);
 }
+
+
+ */
