@@ -36,15 +36,14 @@ function cameraCallBack(imgData){
   img.src =  imgData;
   document.getElementById("msg").textContent=imgData;
   savePicture(imgData);
+  moveFile(imgData);
  // document.getElementById("photo2").src=imgData;
 }
 
 var options = {
       quality: 50,
       destinationType: destinationType.DATA_URL,
-      mediaType: Camera.MediaType.PICTURE,
-      
-
+      mediaType: Camera.MediaType.PICTURE
   };
   
 
@@ -79,4 +78,48 @@ function savePicture(pathImg)
 
 function onSaveImageSuccess(){
   alert("Picture Saved");
+}
+
+
+/***
+ * -----------------------
+ * 
+ */
+
+
+function moveFile(file){
+
+  var deferred = $q.defer();
+
+  window.resolveLocalFileSystemURL(file,
+      function resolveOnSuccess(entry){
+
+          var dateTime = moment.utc(new Date).format('YYYYMMDD_HHmmss');
+          var newFileName = dateTime + ".jpg";
+          var newDirectory = "PicAppPhoto";
+
+          window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
+
+                  //The folder is created if doesn't exist
+                  fileSys.root.getDirectory( newDirectory,
+                      {create:true, exclusive: false},
+                      function(directory) {
+
+                          entry.moveTo(directory, newFileName, function (entry) {
+                              //Now we can use "entry.toURL()" for the img src
+                              console.log(entry.toURL());
+                              deferred.resolve(entry);
+
+                          }, resOnError);
+                      },
+                      resOnError);
+              },
+              resOnError);
+      }, resOnError);
+
+  return deferred.promise;
+}
+
+function resOnError(error) {
+  alert('Awwww shnap!: ' + error.code);
 }
