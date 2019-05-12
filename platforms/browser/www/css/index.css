@@ -12,3 +12,10 @@
 .container > .col button{
     background-color: #006699;
 } 
+
+#photo{
+    width: 340px;
+    height: 440px;
+    border: 2px solid #006699;
+    margin: 5px;
+}
